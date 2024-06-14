@@ -1,18 +1,16 @@
 package com.example.shop.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
-@Table(name = "\"order\"")
+@Table(name = "cart_product")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order {
+public class CartProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,10 +18,10 @@ public class Order {
     private int amount;
 
     @ManyToOne (optional=false, cascade=CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "manufacturer_product_id", unique = true)
+    private ManufacturerProduct manufacturerProduct;
 
     @ManyToOne (optional=false, cascade=CascadeType.ALL)
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
 }

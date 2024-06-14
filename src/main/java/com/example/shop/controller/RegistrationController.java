@@ -3,7 +3,7 @@ package com.example.shop.controller;
 import com.example.shop.DTO.RegistrationUserDTO;
 import com.example.shop.service.RegistrationService;
 import com.example.shop.models.ExistEnum;
-import com.example.shop.util.RegistrationUserMapper;
+import com.example.shop.mapper.RegistrationUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,8 +1,9 @@
 package com.example.shop.DTO;
 
-public record ProductDTO(
+public record CatalogProductDTO(
+        Long id,
         String name,
-        int amount,
+        int price,
         String manufacturer
 ) {
 }

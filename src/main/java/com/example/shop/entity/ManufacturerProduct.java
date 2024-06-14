@@ -19,11 +19,15 @@ public class ManufacturerProduct {
 
     private int amount;
 
+    private int price;
+
+    private String description;
+
     @ManyToOne (optional=false, cascade=CascadeType.ALL)
     @JoinColumn (name="product_id")
     private Product product;
 
     @ManyToOne (optional=false, cascade=CascadeType.ALL)
     @JoinColumn(name = "manufacturer_id")
-    private Manufacturer manufacture;
+    private Manufacturer manufacturer;
 }

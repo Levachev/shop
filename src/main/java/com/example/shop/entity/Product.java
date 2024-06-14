@@ -19,7 +19,8 @@ public class Product {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy="manufacturer_product", fetch= FetchType.LAZY)
+    @OneToMany(mappedBy="product", fetch= FetchType.LAZY)
     @JsonIgnore
     private List<ManufacturerProduct> manufacturerProductList;
+
 }

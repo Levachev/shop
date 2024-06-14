@@ -1,4 +1,4 @@
-package com.example.shop.util;
+package com.example.shop.mapper;
 
 import com.example.shop.DTO.RegistrationUserDTO;
 import com.example.shop.entity.User;

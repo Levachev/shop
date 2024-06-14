@@ -19,7 +19,7 @@ public class Manufacturer {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy="manufacturer_product", fetch= FetchType.LAZY)
+    @OneToMany(mappedBy="manufacturer", fetch= FetchType.LAZY)
     @JsonIgnore
     private List<ManufacturerProduct> manufacturerProductList;
 }
