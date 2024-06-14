@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "manufacturer_product")
+@Table(name = "\"order\"")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ManufacturerProduct {
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,10 +20,10 @@ public class ManufacturerProduct {
     private int amount;
 
     @ManyToOne (optional=false, cascade=CascadeType.ALL)
-    @JoinColumn (name="product_id")
-    private Product product;
+    @JoinColumn(name = "buyer_id")
+    private User user;
 
     @ManyToOne (optional=false, cascade=CascadeType.ALL)
-    @JoinColumn(name = "manufacturer_id")
-    private Manufacturer manufacture;
+    @JoinColumn(name = "product_id")
+    private Product product;
 }
