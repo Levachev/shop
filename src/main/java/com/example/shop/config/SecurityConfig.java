@@ -42,12 +42,14 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/welcome").permitAll()
-                        .requestMatchers("/catalog").authenticated()
-                        .requestMatchers("/cart").authenticated()
+                        .requestMatchers("/registration").permitAll()
+                        .requestMatchers("/catalog/**").authenticated()
+                        .requestMatchers("/product/**").authenticated()
+                        .requestMatchers("/product/**").authenticated()
                         .requestMatchers("/user/get").authenticated())
                 .formLogin(formLogin ->
                         formLogin
-                                .defaultSuccessUrl("/user/get", true)
+                                .defaultSuccessUrl("/catalog/getAll", true)
                                 .permitAll())
                 .build();
     }

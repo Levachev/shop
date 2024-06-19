@@ -15,23 +15,9 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-
     @GetMapping("/get")
     public ManufacturerProductDTO get(@RequestParam Long id){
         return ManufacturerProductMapper.toCatalogProductDTO(productService.getById(id));
     }
 
-    @GetMapping("/cart/add")
-    public void addToCart(@RequestParam("user_id") Long userId,
-                          @RequestParam("product_id") Long productId,
-                          @RequestParam int amount){
-        productService.addToCart(userId, productId, amount);
-    }
-
-    @GetMapping("/cart/delete")
-    public void deleteToCart(@RequestParam("user_id") Long userId,
-                          @RequestParam("product_id") Long productId,
-                             @RequestParam int amount){
-        productService.deleteToCart(userId, productId, amount);
-    }
 }

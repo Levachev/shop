@@ -1,6 +1,8 @@
 package com.example.shop.service;
 
+import com.example.shop.entity.Cart;
 import com.example.shop.entity.User;
+import com.example.shop.repo.CartRepo;
 import com.example.shop.repo.UserRepo;
 import com.example.shop.models.ExistEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ public class RegistrationService {
     private UserRepo userRepo;
 
     @Autowired
+    private CartRepo cartRepo;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     public ExistEnum registerUser(User user){
@@ -26,7 +31,13 @@ public class RegistrationService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("ROLE_USER");
-        userRepo.save(user);
+        user = userRepo.save(user);
+
+        Cart cart = Cart.builder()
+                .user(user)
+                .build();
+
+        cartRepo.save(cart);
 
         return ExistEnum.NOT_EXIST;
     }

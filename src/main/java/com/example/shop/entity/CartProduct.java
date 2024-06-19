@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "cart_product")
+@Table(name = "cart_product",
+uniqueConstraints = @UniqueConstraint(columnNames = {"manufacturer_product_id", "cart_id"}))
 @Getter
 @Setter
 @Builder
@@ -18,7 +19,7 @@ public class CartProduct {
     private int amount;
 
     @ManyToOne (optional=false, cascade=CascadeType.ALL)
-    @JoinColumn(name = "manufacturer_product_id", unique = true)
+    @JoinColumn(name = "manufacturer_product_id")
     private ManufacturerProduct manufacturerProduct;
 
     @ManyToOne (optional=false, cascade=CascadeType.ALL)
