@@ -1,5 +1,6 @@
 package com.example.shop.spec;
 
+import com.example.shop.entity.Manufacturer;
 import com.example.shop.entity.ManufacturerProduct;
 import com.example.shop.entity.Product;
 import com.example.shop.filter.ManufacturerProductFilter;
@@ -25,17 +26,24 @@ public class ManufacturerProductSpec {
     private static Specification<ManufacturerProduct> hasProductName(String productName) {
         return ((root, query, cb)
                 -> {
-            Join<ManufacturerProduct, Product> authorsBook = root.join("product");
+            Join<ManufacturerProduct, Product> products = root.join("product");
             return productName == null || productName.isEmpty() ?
                     cb.conjunction() :
                     //cb.equal(authorsBook.get(PRODUCT_NAME), productName);
-                    cb.like(cb.upper(authorsBook.get(PRODUCT_NAME)),
+                    cb.like(cb.upper(products.get(PRODUCT_NAME)),
                             "%"+productName.toUpperCase()+"%");
         });
     }
 
     private static Specification<ManufacturerProduct> hasManufacturerName(String manufacturerName) {
-        return (root, query, cb) -> manufacturerName == null ? cb.conjunction() : cb.equal(root.get(MANUFACTURER_NAME), manufacturerName);
+        return ((root, query, cb) -> {
+            Join<ManufacturerProduct, Manufacturer> products = root.join("manufacturer");
+            return manufacturerName == null || manufacturerName.isEmpty() ?
+                    cb.conjunction() :
+                    //cb.equal(authorsBook.get(PRODUCT_NAME), productName);
+                    cb.like(cb.upper(products.get(MANUFACTURER_NAME)),
+                            "%"+manufacturerName.toUpperCase()+"%");
+        });
     }
 
     private static Specification<ManufacturerProduct> hasPriceGreaterThan(Integer priceFrom) {
