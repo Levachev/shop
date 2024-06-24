@@ -25,7 +25,7 @@ public class RegistrationService {
     public ExistEnum registerUser(User user){
         Optional<User> tmp = userRepo.findByEmail(user.getEmail());
 
-        if(tmp.isEmpty()){
+        if(tmp.isPresent()){
             return ExistEnum.EXIST;
         }
 

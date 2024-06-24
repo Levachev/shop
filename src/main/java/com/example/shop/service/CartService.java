@@ -3,6 +3,7 @@ package com.example.shop.service;
 import com.example.shop.entity.Cart;
 import com.example.shop.entity.CartProduct;
 import com.example.shop.entity.ManufacturerProduct;
+import com.example.shop.models.SuccessEnum;
 import com.example.shop.repo.CartProductRepo;
 import com.example.shop.repo.CartRepo;
 import com.example.shop.repo.ManufacturerProductRepo;
@@ -28,20 +29,20 @@ public class CartService {
     private CartRepo cartRepo;
 
     @Transactional
-    public void addToCart(Long userId, Long productId, int amount){
+    public SuccessEnum addToCart(Long userId, Long productId, int amount){
         Optional<ManufacturerProduct> manufacturerProductOptional = manufacturerProductRepo.findById(productId);
 
         Optional<Cart> cartOptional = cartRepo.findById(userId);
 
         if(cartOptional.isEmpty() || manufacturerProductOptional.isEmpty()){
-            return;//TODO add status of successful
+            return SuccessEnum.FAIL;
         }
 
         ManufacturerProduct manufacturerProduct = manufacturerProductOptional.get();
         Cart cart = cartOptional.get();
 
         if(manufacturerProduct.getAmount() - amount < 0){
-            return;//TODO add status of successful
+            return SuccessEnum.FAIL;
         }
 
         Optional<CartProduct> cartProducts = cartProductRepo.findByManufacturerProductAndCart(manufacturerProduct.getId(), cart.getId());
@@ -60,24 +61,22 @@ public class CartService {
 
         manufacturerProduct.setAmount(manufacturerProduct.getAmount() - amount);
         manufacturerProductRepo.save(manufacturerProduct);
+
+        return SuccessEnum.SUCCESS;
     }
 
     @Transactional
-    public void deleteToCart(Long userId, Long productId, int amount){
+    public SuccessEnum deleteFromCart(Long userId, Long productId, int amount){
         Optional<ManufacturerProduct> manufacturerProductOptional = manufacturerProductRepo.findById(productId);
 
         Optional<Cart> cartOptional = cartRepo.findById(userId);
 
         if(cartOptional.isEmpty() || manufacturerProductOptional.isEmpty()){
-            return;//TODO add status of successful
+            return SuccessEnum.FAIL;
         }
 
         ManufacturerProduct manufacturerProduct = manufacturerProductOptional.get();
         Cart cart = cartOptional.get();
-
-        if(manufacturerProduct.getAmount() - amount < 0){
-            return;//TODO add status of successful
-        }
 
         Optional<CartProduct> cartProducts = cartProductRepo.findByManufacturerProductAndCart(manufacturerProduct.getId(), cart.getId());
         if(cartProducts.isPresent()){
@@ -91,15 +90,19 @@ public class CartService {
 
             manufacturerProduct.setAmount(manufacturerProduct.getAmount() + amount);
             manufacturerProductRepo.save(manufacturerProduct);
+
+            return SuccessEnum.SUCCESS;
         }
+
+        return SuccessEnum.FAIL;
     }
 
     @Transactional
-    public void order(Long userId){
+    public SuccessEnum order(Long userId){
         Optional<Cart> cartOptional = cartRepo.findById(userId);
 
         if(cartOptional.isEmpty()){
-            return;//TODO add status of successful
+            return  SuccessEnum.FAIL;
         }
 
         Cart cart = cartOptional.get();
@@ -107,6 +110,8 @@ public class CartService {
         for(CartProduct product : cart.getCartProducts()){
             cartProductRepo.delete(product);
         }
+
+        return SuccessEnum.SUCCESS;
     }
 
     public List<CartProduct> show(Long userId, int page){

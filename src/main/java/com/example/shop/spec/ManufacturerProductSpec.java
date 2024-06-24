@@ -1,12 +1,14 @@
 package com.example.shop.spec;
 
 import com.example.shop.entity.ManufacturerProduct;
+import com.example.shop.entity.Product;
 import com.example.shop.filter.ManufacturerProductFilter;
+import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 
 public class ManufacturerProductSpec {
-    private static final String PRODUCT_NAME = "productName";
-    private static final String MANUFACTURER_NAME = "manufacturerName";
+    private static final String PRODUCT_NAME = "name";
+    private static final String MANUFACTURER_NAME = "name";
     private static final String PRICE = "price";
 
     private ManufacturerProductSpec() {
@@ -21,7 +23,15 @@ public class ManufacturerProductSpec {
     }
 
     private static Specification<ManufacturerProduct> hasProductName(String productName) {
-        return ((root, query, cb) -> productName == null || productName.isEmpty() ? cb.conjunction() : cb.equal(root.get(PRODUCT_NAME), productName));
+        return ((root, query, cb)
+                -> {
+            Join<ManufacturerProduct, Product> authorsBook = root.join("product");
+            return productName == null || productName.isEmpty() ?
+                    cb.conjunction() :
+                    //cb.equal(authorsBook.get(PRODUCT_NAME), productName);
+                    cb.like(cb.upper(authorsBook.get(PRODUCT_NAME)),
+                            "%"+productName.toUpperCase()+"%");
+        });
     }
 
     private static Specification<ManufacturerProduct> hasManufacturerName(String manufacturerName) {
@@ -35,4 +45,5 @@ public class ManufacturerProductSpec {
     private static Specification<ManufacturerProduct> hasPriceLessThan(Integer priceTo) {
         return (root, query, cb) -> priceTo == null ? cb.conjunction() : cb.lessThan(root.get(PRICE), priceTo);
     }
+
 }

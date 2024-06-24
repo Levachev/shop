@@ -4,7 +4,9 @@ import com.example.shop.entity.ManufacturerProduct;
 import com.example.shop.filter.ManufacturerProductFilter;
 import com.example.shop.repo.ManufacturerProductRepo;
 import com.example.shop.spec.ManufacturerProductSpec;
+import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import org.springframework.data.domain.Pageable;
@@ -17,10 +19,11 @@ import java.util.List;
 @Service
 public class CatalogService {
 
-    private final String DEFAULT_SORT_PARAM = "price";
+    public static final String DEFAULT_SORT_PARAM = "price";
 
     @Autowired
     private ManufacturerProductRepo manufacturerProductRepo;
+
 
     public List<ManufacturerProduct> getAll(int page, ManufacturerProductFilter filter,
                                             String sortParam, boolean isDesc){

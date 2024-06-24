@@ -1,10 +1,7 @@
 package com.example.shop.repo;
 
 import com.example.shop.entity.*;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
@@ -17,7 +14,6 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CartProductRepoTest {
     @Autowired
     private CartProductRepo underTest;
@@ -29,47 +25,51 @@ class CartProductRepoTest {
     private ManufacturerRepo manufacturerRepo;
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private ProductRepo productRepo;
 
     private ManufacturerProduct manufacturerProduct;
     private Cart cart;
 
-    @BeforeAll
+    @BeforeEach
     public void setup() {
+        Product product = Product.builder().name("product").build();
+        productRepo.save(product);
+
+        Manufacturer manufacturer = Manufacturer.builder().name("manufacturer").build();
+        manufacturerRepo.save(manufacturer);
         manufacturerProduct = ManufacturerProduct.builder()
                 .description("description")
                 .price(11)
                 .amount(11)
-                .manufacturer(
-                        manufacturerRepo.save(
-                            Manufacturer.builder().name("manufacturer").build()
-                        )
-                )
+                .product(product)
+                .manufacturer(manufacturer)
                 .build();
         manufacturerProduct = manufacturerProductRepo.save(manufacturerProduct);
 
+        User user = User.builder()
+                .role("role")
+                .firstname("fname")
+                .lastname("lname")
+                .password("password")
+                .email("email")
+                .build();
+
         cart = Cart.builder()
-                .user(
-                    userRepo.save(
-                        User.builder()
-                        .role("role")
-                        .firstname("fname")
-                        .lastname("lname")
-                        .password("password")
-                        .email("email")
-                        .build()
-                    )
-                )
+                .user(user)
                 .build();
         cart = cartRepo.save(cart);
+        //userRepo.save(user);
     }
 
-    @AfterAll
+    @AfterEach
     public void teardown() {
-        userRepo.deleteAll();
-        cartRepo.deleteAll();
-        manufacturerRepo.deleteAll();
-        manufacturerProductRepo.deleteAll();
         underTest.deleteAll();
+        manufacturerProductRepo.deleteAll();
+        manufacturerRepo.deleteAll();
+        productRepo.deleteAll();
+        cartRepo.deleteAll();
+        userRepo.deleteAll();
     }
 
     @Test
@@ -102,9 +102,10 @@ class CartProductRepoTest {
                 .build();
         CartProduct savedCartProduct = underTest.save(cartProduct);
         //when
-        List<CartProduct> products = underTest.findByCart(PageRequest.of(1, 1), cart.getId())
+        List<CartProduct> products = underTest.findByCart(PageRequest.of(0, 1), cart.getId())
                 .getContent();
         //then
+        System.out.println(savedCartProduct.getId()+" "+products.size()+" "+cart.getId()+" "+savedCartProduct.getCart().getId());
         List<CartProduct> sortedProducts = products.stream().filter(
                 tmp -> (Objects.equals(tmp.getId(), cartProduct.getId()))
         ).toList();

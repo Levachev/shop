@@ -1,7 +1,6 @@
 package com.example.shop.controller;
 
 import com.example.shop.service.CartService;
-import com.example.shop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +30,7 @@ public class CartController {
     public void deleteToCart(@RequestParam("user_id") Long userId,
                              @RequestParam("product_id") Long productId,
                              @RequestParam int amount){
-        cartService.deleteToCart(userId, productId, amount);
+        cartService.deleteFromCart(userId, productId, amount);
     }
 
     @GetMapping("/order")
