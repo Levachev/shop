@@ -17,7 +17,7 @@ public class ProductController {
 
     @GetMapping("/get")
     public ManufacturerProductDTO get(@RequestParam Long id){
-        return ManufacturerProductMapper.toCatalogProductDTO(productService.getById(id));
+        return ManufacturerProductMapper.toManufacturerProductDTO(productService.getById(id));
     }
 
 }

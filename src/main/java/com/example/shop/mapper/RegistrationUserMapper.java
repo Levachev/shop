@@ -11,6 +11,7 @@ public class RegistrationUserMapper {
                 .password(registrationUserDTO.password())
                 .firstname(registrationUserDTO.firstname())
                 .lastname(registrationUserDTO.lastname())
+                .role(registrationUserDTO.role().getValueAsRole())
                 .build();
     }
 

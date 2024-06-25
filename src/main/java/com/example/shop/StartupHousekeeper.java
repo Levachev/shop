@@ -48,6 +48,25 @@ public class StartupHousekeeper implements ApplicationListener<ContextRefreshedE
                 .password(passwordEncoder.encode("12345"))
                 .build();
 
+        var manufacturerUser = User.builder()
+                .role("ROLE_MANUFACTURER")
+                .email("manufacturer1@gmail.com")
+                .firstname("roman")
+                .lastname("romanov")
+                .password(passwordEncoder.encode("12345"))
+                .build();
+
+        var admin = User.builder()
+                .role("ROLE_ADMIN")
+                .email("admin1@gmail.com")
+                .firstname("roman")
+                .lastname("romanov")
+                .password(passwordEncoder.encode("12345"))
+                .build();
+
+        userRepo.save(manufacturerUser);
+        userRepo.save(admin);
+
         cartRepo.save(
                 Cart.builder()
                         .user(user)

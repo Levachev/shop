@@ -1,47 +1,40 @@
 package com.example.shop.controller;
 
+import com.example.shop.DTO.ManufacturerProductDTO;
 import com.example.shop.entity.Manufacturer;
+import com.example.shop.mapper.ManufacturerProductMapper;
+import com.example.shop.repo.ManufacturerProductRepo;
 import com.example.shop.repo.ManufacturerRepo;
+import com.example.shop.service.AdminService;
+import com.example.shop.service.AdminServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
 
+    private final AdminService adminService;
+
     @Autowired
-    private ManufacturerRepo manufacturerRepo;
-
-
-    @GetMapping("/menu")
-    public ModelAndView getMenu(){
-        return new ModelAndView("menu.html");
+    public AdminController(AdminServiceImpl adminService){
+        this.adminService = adminService;
     }
 
-    @GetMapping("/page/{entity}/{operation}")
-    public ModelAndView crud(@PathVariable String entity, @PathVariable String operation){
-        return new ModelAndView(entity+"_"+operation+".html");
+    @GetMapping("/delete/manufacturer_product")
+    public void deleteManufacturerProduct(@RequestParam Long id){
+        adminService.deleteManufacturerProduct(id);
     }
 
-    @PostMapping("/manufacturer/add")
-    public void addManufacturer(@RequestBody Manufacturer manufacturer){
-        manufacturerRepo.save(manufacturer);
+    @GetMapping("/show/manufacturer_product")
+    public List<ManufacturerProductDTO> show(
+            @RequestParam(required = false, defaultValue = "1") int page){
+        return adminService.show(page).stream()
+                .map(ManufacturerProductMapper::toManufacturerProductDTO)
+                .collect(Collectors.toList());
     }
-
-    @PostMapping("/manufacturer/update")
-    public void updateManufacturer(@RequestBody Manufacturer manufacturer){
-        manufacturerRepo.save(manufacturer);
-    }
-
-    @GetMapping("/manufacturer/delete")
-    public void deleteManufacturer(@RequestParam Long id){
-        manufacturerRepo.deleteById(id);
-    }
-
-    @GetMapping("/manufacturer/get")
-    public void getManufacturer(@RequestParam Long id){
-        manufacturerRepo.findById(id);
-    }
-
 }
