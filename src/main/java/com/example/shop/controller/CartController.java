@@ -1,11 +1,18 @@
 package com.example.shop.controller;
 
+import com.example.shop.DTO.CartProductDTO;
+import com.example.shop.DTO.CatalogProductDTO;
+import com.example.shop.mapper.CartProductMapper;
+import com.example.shop.mapper.CatalogProductMapper;
 import com.example.shop.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/cart")
@@ -15,8 +22,10 @@ public class CartController {
 
 
     @GetMapping("/show")
-    public void showCart(@RequestParam("user_id") Long userId, @RequestParam int page){
-        cartService.show(userId, page);
+    public List<CartProductDTO> showCart(@RequestParam("user_id") Long userId, @RequestParam int page){
+        return cartService.show(userId, page).stream()
+                .map(CartProductMapper::toCartProductDTO)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/add")
