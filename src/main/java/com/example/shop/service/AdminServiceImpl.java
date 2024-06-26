@@ -3,7 +3,7 @@ package com.example.shop.service;
 import com.example.shop.entity.ManufacturerProduct;
 import com.example.shop.repo.ManufacturerProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Qualifier("firstImpl")
 public class AdminServiceImpl implements AdminService{
 
     @Autowired

@@ -10,6 +10,7 @@ import com.example.shop.repo.ManufacturerProductRepo;
 import com.example.shop.repo.ManufacturerRepo;
 import com.example.shop.repo.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Qualifier("firstImpl")
 public class ManufacturerServiceImpl implements ManufacturerService {
     @Autowired
     private ManufacturerProductRepo manufacturerProductRepo;

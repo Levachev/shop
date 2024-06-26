@@ -6,6 +6,7 @@ import com.example.shop.DTO.UpdateManufacturerProductDTO;
 import com.example.shop.mapper.ManufacturerProductMapper;
 import com.example.shop.service.ManufacturerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/manufacturer")
 public class ManufacturerController {
     @Autowired
+    @Qualifier("firstImpl")
     private ManufacturerService manufacturerService;
 
     @GetMapping("/show")

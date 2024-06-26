@@ -105,12 +105,11 @@ class CartProductRepoTest {
         List<CartProduct> products = underTest.findByCart(PageRequest.of(0, 1), cart.getId())
                 .getContent();
         //then
-        System.out.println(savedCartProduct.getId()+" "+products.size()+" "+cart.getId()+" "+savedCartProduct.getCart().getId());
         List<CartProduct> sortedProducts = products.stream().filter(
-                tmp -> (Objects.equals(tmp.getId(), cartProduct.getId()))
+                tmp -> (Objects.equals(tmp.getId(), savedCartProduct.getId()))
         ).toList();
 
         assertFalse(sortedProducts.isEmpty());
-        assertEquals(sortedProducts.getFirst().getId(), savedCartProduct.getId());
+        assertEquals(sortedProducts.size(), 1);
     }
 }

@@ -6,12 +6,14 @@ import com.example.shop.repo.CartRepo;
 import com.example.shop.repo.UserRepo;
 import com.example.shop.models.ExistEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@Qualifier("firstImpl")
 public class RegistrationServiceImpl implements RegistrationService {
     @Autowired
     private UserRepo userRepo;

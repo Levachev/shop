@@ -5,6 +5,7 @@ import com.example.shop.service.RegistrationService;
 import com.example.shop.models.ExistEnum;
 import com.example.shop.mapper.RegistrationUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegistrationController {
 
     @Autowired
+    @Qualifier("firstImpl")
     private RegistrationService service;
 
     @GetMapping

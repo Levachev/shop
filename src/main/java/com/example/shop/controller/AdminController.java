@@ -8,6 +8,7 @@ import com.example.shop.repo.ManufacturerRepo;
 import com.example.shop.service.AdminService;
 import com.example.shop.service.AdminServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,12 +19,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final AdminService adminService;
-
     @Autowired
-    public AdminController(AdminServiceImpl adminService){
-        this.adminService = adminService;
-    }
+    @Qualifier("firstImpl")
+    private AdminService adminService;
 
     @GetMapping("/delete/manufacturer_product")
     public void deleteManufacturerProduct(@RequestParam Long id){
