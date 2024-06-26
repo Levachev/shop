@@ -17,11 +17,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ProductServiceTest {
+class ProductServiceImplTest {
     @Mock
     private ManufacturerProductRepo manufacturerProductRepo;
     @InjectMocks
-    private ProductService underTest;
+    private ProductServiceImpl underTest;
 
     @Test
     void shouldGetById() {

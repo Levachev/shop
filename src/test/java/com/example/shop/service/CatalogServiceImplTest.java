@@ -3,13 +3,10 @@ package com.example.shop.service;
 import com.example.shop.entity.ManufacturerProduct;
 import com.example.shop.filter.ManufacturerProductFilter;
 import com.example.shop.repo.ManufacturerProductRepo;
-import com.example.shop.spec.ManufacturerProductSpec;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -22,11 +19,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class CatalogServiceTest {
+class CatalogServiceImplTest {
     @Mock
     private ManufacturerProductRepo manufacturerProductRepo;
     @InjectMocks
-    private CatalogService underTest;
+    private CatalogServiceImpl underTest;
 
 //    @BeforeEach
 //    public void init() {
@@ -41,10 +38,10 @@ class CatalogServiceTest {
         for(int i=0;i<listSize;i++) {
             productList.add(
                     ManufacturerProduct.builder()
-                            .id((long) i + 3)
                             .build()
             );
         }
+        //when
 
         when(manufacturerProductRepo.findAll(any(Specification.class), any(Pageable.class))).thenReturn(new PageImpl<>(productList));
         List<ManufacturerProduct> empList = underTest.getAll(0,

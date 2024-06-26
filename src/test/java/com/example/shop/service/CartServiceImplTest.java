@@ -25,7 +25,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class CartServiceTest {
+class CartServiceImplTest {
     @Mock
     private ManufacturerProductRepo manufacturerProductRepo;
 
@@ -36,7 +36,7 @@ class CartServiceTest {
     private CartRepo cartRepo;
 
     @InjectMocks
-    private CartService underTest;
+    private CartServiceImpl underTest;
 
 
     @Test

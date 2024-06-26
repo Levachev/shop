@@ -8,6 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AdminServiceImpl implements AdminService{
 
@@ -20,11 +22,11 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public Page<ManufacturerProduct> show(int page){
+    public List<ManufacturerProduct> show(int page){
         int pageNumber = page < 1 ? 0 : page-1;
         int pageSize = 10;
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return manufacturerProductRepo.findAll(pageable);
+        return manufacturerProductRepo.findAll(pageable).getContent();
     }
 }
