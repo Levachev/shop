@@ -7,3 +7,4 @@ mvn spring-boot:run<br />
 to run app in docker container:<br />
 1)create image: mvn spring-boot:build-image<br />
 2)run: docker run --network="host"   -i -t 'ID'<br />
+spring web+data+jpa hibernate+security 
